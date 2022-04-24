@@ -7,7 +7,7 @@ pipeline {
   
   parameters {
 	booleanParam (name: 'build_only', defaultValue: false, description: '', )
-	choice (name: 'region', choices:["ap-south-1"], description: 'AWS Region')
+	choice (name: 'region', choices:["us-east-2"], description: 'AWS Region')
   }
   
   stages {
@@ -49,7 +49,7 @@ pipeline {
     stage('Docker Build') {
       steps {
 	script {
-            ecr_repo = "141244751477.dkr.ecr.ap-south-1.amazonaws.com/dms/dmsservice"
+            ecr_repo = "141244751477.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice"
             docker_image_tag = ecr_repo + ":" + full_version
             println("docker_image_tag: ${docker_image_tag}")
 	    sh("/usr/bin/docker build ${env.WORKSPACE}/application -t ${docker_image_tag}")
@@ -59,7 +59,7 @@ pipeline {
     stage('Publish image to ECR') {
         steps {
 	      script {
-		    withDockerRegistry(credentialsId: 'ecr:ap-south-1:aws-creds', url: 'https://141244751477.dkr.ecr.ap-south-1.amazonaws.com/dms/dmsservice') {
+		    withDockerRegistry(credentialsId: 'ecr:us-east-2:aws-creds', url: 'https://141244751477.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice') {
 			   sh("docker push ${docker_image_tag}")
 		     }
 		     sh("docker rmi -f ${docker_image_tag}")
