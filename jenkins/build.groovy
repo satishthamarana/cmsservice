@@ -83,12 +83,8 @@ pipeline {
 		    withDockerRegistry(credentialsId: 'ecr:us-east-2:aws-creds', url:'https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice') {
 
         sh("docker push ${docker_image_tag}")
-        docker.withRegistry('https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice', 'ecr:us-east-2:aws-creds')
-		    //app.push("${env.BULID_NUMBER}")
-        //app.push("latest")
-         }
-
-		     sh("docker rmi -f ${docker_image_tag}")
+        }
+        sh("docker rmi -f ${docker_image_tag}")
 		  }
 	    }
     }
@@ -112,6 +108,6 @@ pipeline {
 	cleanWs()
      }
   }
- }
+ 
 }
 
