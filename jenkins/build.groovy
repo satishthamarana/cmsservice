@@ -4,6 +4,7 @@ pipeline {
         maven 'maven3'
         jdk 'jdk-11'
   }
+  def commit_id
   
   parameters {
 	booleanParam (name: 'build_only', defaultValue: false, description: '', )
@@ -52,26 +53,30 @@ pipeline {
             ecr_repo = "955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice"
             docker_image_tag = ecr_repo + ":" + full_version
             println("docker_image_tag: ${docker_image_tag}")
-	    //sh("docker build ${env.WORKSPACE}/application -t ${docker_image_tag}")
-      app = docker.build("dmsservice")
+	    sh("docker build ${env.WORKSPACE}/application -t ${docker_image_tag}")
+      //app = docker.build("dmsservice")
         }
       }
     }
-    stage('Publish image to ECR') {
-        steps {
-	      script {
-		   // withDockerRegistry(credentialsId: 'ecr:us-east-2:aws-creds', url:'https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice') {
-			  // sh("docker login -u=${USER} -p=${PASS} https://955473949192.dkr.ecr.us-east-2.amazonaws.com")
-         //sh("docker login -u=${USER} -p=${PASS} https://955473949192.dkr.ecr.us-east-2.amazonaws.com") 
-         //sh("docker push ${docker_image_tag}")
-         docker.withRegistry('https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice', 'ecr:us-east-2:aws-creds')
-		     app.push("${env.BULID_NUMBER}")
-         app.push("latest")
-         }
+    stage('docker push') {
+     docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+       def app = docker.build("thamarana/cms-service:${commit_id}", '.').push()
+    // stage('Publish image to ECR') {
+    //     steps {
+	  //     script {
+    //       sh('docker push bharathirajatut/nodeapp:latest')
+		//     //withDockerRegistry(credentialsId: 'ecr:us-east-2:aws-creds', url:'https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice') {
+		// 	  // sh("docker login -u=${USER} -p=${PASS} https://955473949192.dkr.ecr.us-east-2.amazonaws.com")
+    //      //sh("docker login -u=${USER} -p=${PASS} https://955473949192.dkr.ecr.us-east-2.amazonaws.com") 
+    //      //sh("docker push ${docker_image_tag}")
+    //      //docker.withRegistry('https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice', 'ecr:us-east-2:aws-creds')
+		//      app.push("${env.BULID_NUMBER}")
+    //      app.push("latest")
+    //      }
 
-		    // sh("docker rmi -f ${docker_image_tag}")
-		  }
-	    }
+		//     // sh("docker rmi -f ${docker_image_tag}")
+		//   }
+	  //   }
     
 	// stage('Deploy') {
   //     steps {
