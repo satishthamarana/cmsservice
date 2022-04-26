@@ -63,6 +63,7 @@ pipeline {
        def app = docker.build("thamarana/cms-service:${commit_id}", '.').push()
 
      }
+    }
     // stage('Publish image to ECR') {
     //     steps {
 	  //     script {
