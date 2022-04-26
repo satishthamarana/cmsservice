@@ -1,4 +1,9 @@
 pipeline {
+  environment {
+    registry = "thamarana/cms-service"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
   agent any
   tools { 
         maven 'maven3'
@@ -51,21 +56,23 @@ pipeline {
       steps {
 	script {
             ecr_repo = "955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice"
-            docker_image_tag = ecr_repo + ":" + full_version
-            println("docker_image_tag: ${docker_image_tag}")
-	    sh("docker build ${env.WORKSPACE}/application -t ${docker_image_tag}")
+           // docker_image_tag = ecr_repo + ":" + full_version
+           // println("docker_image_tag: ${docker_image_tag}")
+	    //sh("docker build ${env.WORKSPACE}/application -t ${docker_image_tag}")
+       dockerImage = docker.build registry + ":$BUILD_NUMBER"
       //app = docker.build("dmsservice")
         }
       }
     }
-    def commit_id
-    stage('docker push') {
-      withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-     // sh("docker.build(thamarana/cms-service:${commit_id}, '.').push()
-      
-       def app = docker.build("thamarana/cms-service:${commit_id}", '.').push()
-
-     }
+    //def commit_id
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
     }
     // stage('Publish image to ECR') {
     //     steps {
