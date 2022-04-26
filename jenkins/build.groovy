@@ -1,9 +1,9 @@
 pipeline {
-  environment {
-    registry = "thamarana/cms-service"
-    registryCredential = 'dockerhub'
-    dockerImage = ''
-  }
+  // environment {
+  //   registry = "thamarana/cms-service"
+  //   registryCredential = 'dockerhub'
+  //   dockerImage = ''
+  // }
   agent any
   tools { 
         maven 'maven3'
@@ -76,21 +76,21 @@ pipeline {
         }
       }
     }
-    // stage('Publish image to ECR') {
-    //     steps {
-	  //     script {
+    stage('Publish image to ECR') {
+        steps {
+	      script {
 
-		//     //withDockerRegistry(credentialsId: 'ecr:us-east-2:aws-creds', url:'https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice') {
+		    withDockerRegistry(credentialsId: 'ecr:us-east-2:aws-creds', url:'https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice') {
 
-    //      //sh("docker push ${docker_image_tag}")
-    //      //docker.withRegistry('https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice', 'ecr:us-east-2:aws-creds')
-		//      app.push("${env.BULID_NUMBER}")
-    //      app.push("latest")
-    //      }
+        sh("docker push ${docker_image_tag}")
+        docker.withRegistry('https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice', 'ecr:us-east-2:aws-creds')
+		    //app.push("${env.BULID_NUMBER}")
+        //app.push("latest")
+         }
 
-		//     // sh("docker rmi -f ${docker_image_tag}")
-		//   }
-	  //   }
+		     sh("docker rmi -f ${docker_image_tag}")
+		  }
+	    }
     
 	// stage('Deploy') {
   //     steps {
