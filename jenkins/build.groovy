@@ -101,7 +101,7 @@ pipeline {
   //       }
   //     }
   //   }
-  //}
+  }
   post {
      always{
 	//addShortText(full_version)
@@ -109,5 +109,6 @@ pipeline {
      }
   }
  
-}
-}
+ }
+
+
