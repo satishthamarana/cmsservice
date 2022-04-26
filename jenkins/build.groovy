@@ -67,30 +67,30 @@ pipeline {
       }
     }
 
-  //   stage('Publish image') {
-  //     steps{
-  // script {
-  //           docker.withRegistry( '', registryCredential ) {
-  //           dockerImage.push ()
-  //           //sh("docker push ${docker_image_tag}")
-  //         }
-  //       }
-  //     }
-  //   }
-    stage('Publish image to ECR') {
-        steps {
-	        script {
-
-        //docker.withRegistry('https://955473949192.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-creds') {
-        //sh docker.image('docker_image_tag').push('latest')
-        //  }
-		         withDockerRegistry(credentialsId: '${registryCredential}', url:'https://hub.docker.com/repository/docker/thamarana/cms-service') {
-                sh("docker push ${docker_image_tag}")
-                sh("docker rmi -f ${docker_image_tag}")
-		        }
-	       }
-       }
+    stage('Publish image') {
+      steps{
+  script {
+            docker.withRegistry( '', registryCredential ) {
+            dockerImage.push ()
+            //sh("docker push ${docker_image_tag}")
+          }
+        }
+      }
     }
+    // stage('Publish image to ECR') {
+    //     steps {
+	  //       script {
+
+    //     //docker.withRegistry('https://955473949192.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-creds') {
+    //     //sh docker.image('docker_image_tag').push('latest')
+    //     //  }
+		//          withDockerRegistry(credentialsId: '${registryCredential}', url:'https://hub.docker.com/repository/docker/thamarana/cms-service') {
+    //             sh("docker push ${docker_image_tag}")
+    //             sh("docker rmi -f ${docker_image_tag}")
+		//         }
+	  //      }
+    //    }
+    // }
 	// stage('Deploy') {
   //     steps {
 	// 	script {
