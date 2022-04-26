@@ -91,7 +91,7 @@ pipeline {
 		//         }
 	  //      }
     //    }
-    }
+    
 	stage('Deploy') {
       steps {
 		script {
@@ -101,7 +101,7 @@ pipeline {
 					string(name: 'environment', value: deploy_target),
 					string(name: 'region', value: region),
 				]
-			}
+			    }
         }
       }
     }
