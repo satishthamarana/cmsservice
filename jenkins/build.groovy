@@ -55,8 +55,8 @@ pipeline {
     stage('Docker Build') {
       steps {
 	script {
-           // ecr_repo = "955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice"
-            ecr_repo = "thamarana/cms-service"
+            ecr_repo = "955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice"
+            //ecr_repo = "thamarana/cms-service"
             docker_image_tag = ecr_repo + ":" + full_version
             println("docker_image_tag: ${docker_image_tag}")
 	          sh("docker build ${env.WORKSPACE}/application -t ${docker_image_tag}")
@@ -70,7 +70,7 @@ pipeline {
       steps{
   script {
             docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
+            dockerImage.push ${docker_image_tag}
             //sh("docker push ${docker_image_tag}")
           }
         }
