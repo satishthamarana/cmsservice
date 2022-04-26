@@ -91,20 +91,20 @@ pipeline {
 		//         }
 	  //      }
     //    }
-    // }
-	// stage('Deploy') {
-  //     steps {
-	// 	script {
-	// 		if (params.build_only == false) {
-	// 			build job: '../Deploy/' + env.JOB_BASE_NAME, parameters: [
-	// 				string(name: 'version', value: full_version),
-	// 				string(name: 'environment', value: deploy_target),
-	// 				string(name: 'region', value: region),
-	// 			]
-	// 		}
-  //       }
-  //     }
-  //   }
+    }
+	stage('Deploy') {
+      steps {
+		script {
+			if (params.build_only == false) {
+				build job: '../Deploy/' + env.JOB_BASE_NAME, parameters: [
+					string(name: 'version', value: full_version),
+					string(name: 'environment', value: deploy_target),
+					string(name: 'region', value: region),
+				]
+			}
+        }
+      }
+    }
   }
   post {
      always{
