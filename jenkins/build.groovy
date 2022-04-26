@@ -61,7 +61,9 @@ pipeline {
     def commit_id
     stage('docker push') {
       withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-      sh("docker.build("thamarana/cms-service:${commit_id}", '.').push()")
+     // sh("docker.build(thamarana/cms-service:${commit_id}, '.').push()
+      
+       def app = docker.build("thamarana/cms-service:${commit_id}", '.').push()
 
      }
     }
