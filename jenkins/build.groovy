@@ -49,7 +49,7 @@ pipeline {
       steps {
 	  dir("application") {
             sh 'mvn -B -DskipTests clean package'
-	  }
+	      }
       }
     }
     stage('Docker Build') {
@@ -112,4 +112,6 @@ pipeline {
 	cleanWs()
      }
   }
+ }
 }
+
