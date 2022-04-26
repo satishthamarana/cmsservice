@@ -4,7 +4,7 @@ pipeline {
         maven 'maven3'
         jdk 'jdk-11'
   }
-  def commit_id
+
   
   parameters {
 	booleanParam (name: 'build_only', defaultValue: false, description: '', )
@@ -58,9 +58,10 @@ pipeline {
         }
       }
     }
+    def commit_id
     stage('docker push') {
-     docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-       def app = docker.build("thamarana/cms-service:${commit_id}", '.').push()
+      withRegistry('https://index.docker.io/v2/', 'dockerhub') {
+      sh("docker.build("thamarana/cms-service:${commit_id}", '.').push()")
 
      }
     }
