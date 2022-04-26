@@ -60,7 +60,7 @@ pipeline {
             //docker_image_tag = ecr_repo + ":" + full_version
             docker_image_tag = "thamarana/cms-service"
             println("docker_image_tag: ${docker_image_tag}")
-	          sh("docker build ${env.WORKSPACE}/application -t ${docker_image_tag} .")
+	          sh("docker build ${env.WORKSPACE}/application -t ${docker_image_tag} ")
       // dockerImage = docker.build registry + ":$BUILD_NUMBER"
       //app = docker.build("dmsservice")
         }
