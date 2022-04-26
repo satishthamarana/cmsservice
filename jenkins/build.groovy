@@ -62,27 +62,27 @@ pipeline {
 		    withDockerRegistry(credentialsId: 'ecr:us-east-2:aws-creds', url:'https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice') {
 			   sh("docker push ${docker_image_tag}")
 		     }
-		     sh("docker rmi -f ${docker_image_tag}")
+		    // sh("docker rmi -f ${docker_image_tag}")
 		  }
 	    }
     }
-	stage('Deploy') {
-      steps {
-		script {
-			if (params.build_only == false) {
-				build job: '../Deploy/' + env.JOB_BASE_NAME, parameters: [
-					string(name: 'version', value: full_version),
-					string(name: 'environment', value: deploy_target),
-					string(name: 'region', value: region),
-				]
-			}
-        }
-      }
-    }
+	// stage('Deploy') {
+  //     steps {
+	// 	script {
+	// 		if (params.build_only == false) {
+	// 			build job: '../Deploy/' + env.JOB_BASE_NAME, parameters: [
+	// 				string(name: 'version', value: full_version),
+	// 				string(name: 'environment', value: deploy_target),
+	// 				string(name: 'region', value: region),
+	// 			]
+	// 		}
+  //       }
+  //     }
+  //   }
   }
   post {
      always{
-	addShortText(full_version)
+	//addShortText(full_version)
 	cleanWs()
      }
   }
