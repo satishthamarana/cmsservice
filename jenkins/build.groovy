@@ -73,6 +73,7 @@ pipeline {
             docker.withRegistry( '', registryCredential ) {
             //dockerImage.push ()
             sh("docker push ${docker_image_tag}")
+            sh("docker rmi -f ${docker_image_tag}")
           }
         }
       }
