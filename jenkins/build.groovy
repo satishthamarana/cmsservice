@@ -57,9 +57,10 @@ pipeline {
 	script {
             ecr_repo = "955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice"
             //ecr_repo = "thamarana/cms-service"
-            docker_image_tag = ecr_repo + ":" + full_version
+            //docker_image_tag = ecr_repo + ":" + full_version
+            docker_image_tag = "thamarana/dmsservice"
             println("docker_image_tag: ${docker_image_tag}")
-	          sh("docker build ${env.WORKSPACE}/application -t ${docker_image_tag}")
+	          sh("docker build ${env.WORKSPACE}/application -t ${docker_image_tag} .")
       // dockerImage = docker.build registry + ":$BUILD_NUMBER"
       //app = docker.build("dmsservice")
         }
@@ -80,16 +81,15 @@ pipeline {
         steps {
 	        script {
 
-        docker.withRegistry('https://955473949192.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-creds') {
-        docker.image('docker_image_tag').push('latest')
-          }
-		   // withDockerRegistry(credentialsId: 'ecr:us-east-2:aws-creds', url:'https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice') {
-
-       // sh("docker push ${docker_image_tag}")
-       // }
-        sh("docker rmi -f ${docker_image_tag}")
-		  }
-	    }
+        //docker.withRegistry('https://955473949192.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-creds') {
+        //sh docker.image('docker_image_tag').push('latest')
+        //  }
+		         withDockerRegistry(credentialsId: 'ecr:us-east-2:aws-creds', url:'https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice') {
+                sh("docker push ${docker_image_tag}")
+                sh("docker rmi -f ${docker_image_tag}")
+		        }
+	       }
+       }
     }
 	// stage('Deploy') {
   //     steps {
