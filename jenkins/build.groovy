@@ -58,13 +58,13 @@ pipeline {
             ecr_repo = "955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice"
             docker_image_tag = ecr_repo + ":" + full_version
             println("docker_image_tag: ${docker_image_tag}")
-	    //sh("docker build ${env.WORKSPACE}/application -t ${docker_image_tag}")
+	          sh("docker build ${env.WORKSPACE}/application -t ${docker_image_tag}")
       // dockerImage = docker.build registry + ":$BUILD_NUMBER"
       //app = docker.build("dmsservice")
         }
       }
     }
-    //def commit_id
+
     stage('Deploy Image') {
       steps{
         script {
@@ -77,10 +77,9 @@ pipeline {
     // stage('Publish image to ECR') {
     //     steps {
 	  //     script {
-    //       sh('docker push bharathirajatut/nodeapp:latest')
+
 		//     //withDockerRegistry(credentialsId: 'ecr:us-east-2:aws-creds', url:'https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice') {
-		// 	  // sh("docker login -u=${USER} -p=${PASS} https://955473949192.dkr.ecr.us-east-2.amazonaws.com")
-    //      //sh("docker login -u=${USER} -p=${PASS} https://955473949192.dkr.ecr.us-east-2.amazonaws.com") 
+
     //      //sh("docker push ${docker_image_tag}")
     //      //docker.withRegistry('https://955473949192.dkr.ecr.us-east-2.amazonaws.com/dms/dmsservice', 'ecr:us-east-2:aws-creds')
 		//      app.push("${env.BULID_NUMBER}")
