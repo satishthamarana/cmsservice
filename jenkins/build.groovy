@@ -66,16 +66,16 @@ pipeline {
       }
     }
 
-    stage('Publish image') {
-      steps{
-  script {
-            docker.withRegistry( '', registryCredential ) {
-            dockerImage.push ()
-            //sh("docker push ${docker_image_tag}")
-          }
-        }
-      }
-    }
+  //   stage('Publish image') {
+  //     steps{
+  // script {
+  //           docker.withRegistry( '', registryCredential ) {
+  //           dockerImage.push ()
+  //           //sh("docker push ${docker_image_tag}")
+  //         }
+  //       }
+  //     }
+  //   }
     stage('Publish image to ECR') {
         steps {
 	      script {
@@ -91,7 +91,7 @@ pipeline {
 		     sh("docker rmi -f ${docker_image_tag}")
 		  }
 	    }
-    
+    }
 	// stage('Deploy') {
   //     steps {
 	// 	script {
@@ -105,7 +105,7 @@ pipeline {
   //       }
   //     }
   //   }
-  }
+  //}
   post {
      always{
 	//addShortText(full_version)
